@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="../bin/ehcache.xsd"
+    updateCheck="false"> 
+    <defaultCache overflowToDisk="false" eternal="false" maxElementsInMemory="10000000"/> 
+    <!-- <diskStore path="c:/cache" />  -->
+    
+    <cache name="FLOW_LIMIT" maxElementsInMemory="100000" timeToLiveSeconds="10" />
+    
+    <cache name="ACCESS_CFG" maxElementsInMemory="100000" timeToLiveSeconds="10" />
+    
+    <cache name="DOMAIN_USERID" maxElementsInMemory="100000" timeToLiveSeconds="10" />
+    
+    <cache name="USER_DOMAIN_CACHE" maxElementsInMemory="1000" timeToLiveSeconds="10" />
+     
+</ehcache>

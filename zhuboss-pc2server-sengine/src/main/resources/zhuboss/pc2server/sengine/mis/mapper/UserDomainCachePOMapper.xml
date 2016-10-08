@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zhuboss.pc2server.sengine.mis.mapper.UserDomainCachePOMapper" >
+  <resultMap id="BaseResultMap" type="zhuboss.pc2server.sengine.mis.po.UserDomainCachePO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_domain_id" property="userDomainId" jdbcType="INTEGER" />
+    <result column="case_sensitive" property="caseSensitive" jdbcType="VARCHAR" />
+    <result column="how_match" property="howMatch" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="expire_time" property="expireTime" jdbcType="INTEGER" />
+    <result column="case_args" property="caseArgs" jdbcType="VARCHAR" />
+    <result column="expire_unit" property="expireUnit" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, user_domain_id, case_sensitive, how_match, location, expire_time, case_args, 
+    expire_unit, create_date, modify_date
+    from user_domain_cache
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+
+  <select id="selectByClause" resultMap="BaseResultMap" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    select id, user_domain_id, case_sensitive, how_match, location, expire_time, case_args, 
+    expire_unit, create_date, modify_date
+    	from user_domain_cache
+    <if test=" '' != sql" >
+      where ${sql}
+    </if>
+    <if test="orderByClause != null and orderByClause.size > 0" >
+      order by 
+      <foreach collection="orderByClause" item="orderBy" separator="," >
+        ${orderBy}
+      </foreach>
+    </if>
+    <if test=" null != start" > limit ${start},${limit}</if>
+  </select>
+  
+
+  <select id="selectCountByClause" resultType="Integer" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    SELECT COUNT(*) 
+	FROM	user_domain_cache
+    <if test=" '' != sql" >
+ where ${sql}
+ </if>
+
+  </select>
+  
+
+  <insert id="insert" parameterType="zhuboss.pc2server.sengine.mis.po.UserDomainCachePO" >
+    insert into user_domain_cache (id, user_domain_id, case_sensitive, 
+      how_match, location, expire_time, 
+      case_args, expire_unit, create_date, 
+      modify_date)
+    values (#{id,jdbcType=INTEGER}, #{userDomainId,jdbcType=INTEGER}, #{caseSensitive,jdbcType=VARCHAR}, 
+      #{howMatch,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{expireTime,jdbcType=INTEGER}, 
+      #{caseArgs,jdbcType=VARCHAR}, #{expireUnit,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  
+
+  <update id="updateByPK" parameterType="zhuboss.pc2server.sengine.mis.po.UserDomainCachePO" >
+    update user_domain_cache
+    set user_domain_id = #{userDomainId,jdbcType=INTEGER},
+      case_sensitive = #{caseSensitive,jdbcType=VARCHAR},
+      how_match = #{howMatch,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      expire_time = #{expireTime,jdbcType=INTEGER},
+      case_args = #{caseArgs,jdbcType=VARCHAR},
+      expire_unit = #{expireUnit,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+
+  <delete id="deleteByPK" parameterType="java.lang.Integer" >
+    delete from user_domain_cache
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

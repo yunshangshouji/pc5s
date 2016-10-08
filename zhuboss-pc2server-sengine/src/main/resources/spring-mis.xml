@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"	
+		xmlns:util="http://www.springframework.org/schema/util"	
+		xmlns:jee="http://www.springframework.org/schema/jee" 
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd				
+				http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd 
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+				>
+   	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" depends-on="propertyConfigurer" >
+	    <property name="driverClassName"><value>${jdbc.driverClassName}</value></property>
+		<property name="url"><value>${jdbc.url}</value></property>
+		<property name="username"><value>${jdbc.username}</value></property>
+		<property name="password"><value>${jdbc.password}</value></property>
+		<property name="removeAbandoned"><value>true</value></property>
+		<property name="maxActive"><value>${jdbc.maxActive}</value></property>
+	    <property name="maxIdle" ><value>${jdbc.maxIdle}</value></property>
+	    <property name="maxWait" ><value>${jdbc.maxWait}</value></property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" p:dataSource-ref="dataSource" />
+	
+	<!--事务模板 -->  
+    <bean id="transactionTemplate"  
+        class="org.springframework.transaction.support.TransactionTemplate">  
+        <property name="transactionManager">  
+            <ref local="transactionManager" />  
+        </property>  
+        <!--ISOLATION_DEFAULT 表示由使用的数据库决定  -->  
+        <property name="isolationLevelName" value="ISOLATION_DEFAULT"/>  
+        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>  
+        <!-- <property name="timeout" value="30"/> -->  
+    </bean>  
+      
+		<!--  MyBatis 配置  (只能用以下方式 否则会造成 spring PropertyPlaceholderConfigurer 后加载 )-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="zhuboss.pc2server.sengine.mis.mapper" />
+		<property name="sqlSessionFactoryBeanName"  value="demoSqlSessionFactory" /> <!-- value 而不是直接ref -->
+	</bean>
+	<bean id="demoSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+	    <property name="dataSource" ref="dataSource" />  
+	    <property name="configLocation" value="classpath:mybatis-config.xml" />  
+	</bean>  
+	
+    <tx:annotation-driven transaction-manager="transactionManager" /><!-- 基于注解的事务管理 -->
+    
+    <context:component-scan base-package="zhuboss.pc2server.sengine.mis.service.impl" >
+		<context:include-filter type="regex" expression=".*ServiceImpl"/>
+	</context:component-scan>
+	
+</beans>

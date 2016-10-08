@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zhuboss.pc2server.sengine.mis.mapper.UserDomainPOMapper" >
+  <resultMap id="BaseResultMap" type="zhuboss.pc2server.sengine.mis.po.UserDomainPO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_domain" property="userDomain" jdbcType="VARCHAR" />
+    <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+    <result column="web_access_pwd" property="webAccessPwd" jdbcType="VARCHAR" />
+    <result column="white_ip_list" property="whiteIpList" jdbcType="VARCHAR" />
+    <result column="alive_flag" property="aliveFlag" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, user_id, user_domain, app_key, web_access_pwd, white_ip_list, alive_flag, 
+    create_date, modify_date
+    from user_domain
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+
+  <select id="selectByClause" resultMap="BaseResultMap" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    select id, user_id, user_domain, app_key, web_access_pwd, white_ip_list, alive_flag, 
+    create_date, modify_date
+    	from user_domain
+    <if test=" '' != sql" >
+      where ${sql}
+    </if>
+    <if test="orderByClause != null and orderByClause.size > 0" >
+      order by 
+      <foreach collection="orderByClause" item="orderBy" separator="," >
+        ${orderBy}
+      </foreach>
+    </if>
+    <if test=" null != start" > limit ${start},${limit}</if>
+  </select>
+  
+
+  <select id="selectCountByClause" resultType="Integer" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    SELECT COUNT(*) 
+	FROM	user_domain
+    <if test=" '' != sql" >
+ where ${sql}
+ </if>
+
+  </select>
+  
+
+  <insert id="insert" parameterType="zhuboss.pc2server.sengine.mis.po.UserDomainPO" >
+    insert into user_domain (id, user_id, user_domain, 
+      app_key, web_access_pwd, white_ip_list, 
+      alive_flag, create_date, modify_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userDomain,jdbcType=VARCHAR}, 
+      #{appKey,jdbcType=VARCHAR}, #{webAccessPwd,jdbcType=VARCHAR}, #{whiteIpList,jdbcType=VARCHAR}, 
+      #{aliveFlag,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+
+  <update id="updateByPK" parameterType="zhuboss.pc2server.sengine.mis.po.UserDomainPO" >
+    update user_domain
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_domain = #{userDomain,jdbcType=VARCHAR},
+      app_key = #{appKey,jdbcType=VARCHAR},
+      web_access_pwd = #{webAccessPwd,jdbcType=VARCHAR},
+      white_ip_list = #{whiteIpList,jdbcType=VARCHAR},
+      alive_flag = #{aliveFlag,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+
+  <delete id="deleteByPK" parameterType="java.lang.Integer" >
+    delete from user_domain
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

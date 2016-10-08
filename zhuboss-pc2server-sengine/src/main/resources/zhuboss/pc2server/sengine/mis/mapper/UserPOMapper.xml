@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zhuboss.pc2server.sengine.mis.mapper.UserPOMapper" >
+  <resultMap id="BaseResultMap" type="zhuboss.pc2server.sengine.mis.po.UserPO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="passwd" property="passwd" jdbcType="VARCHAR" />
+    <result column="user_level" property="userLevel" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="can_set_user_name" property="canSetUserName" jdbcType="VARCHAR" />
+    <result column="flow_limit_1" property="flowLimit1" jdbcType="INTEGER" />
+    <result column="flow_limit_2" property="flowLimit2" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="register_flag" property="registerFlag" jdbcType="VARCHAR" />
+    <result column="verify_code" property="verifyCode" jdbcType="VARCHAR" />
+    <result column="alive_flag" property="aliveFlag" jdbcType="VARCHAR" />
+    <result column="register_ip" property="registerIp" jdbcType="VARCHAR" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, email, passwd, user_level, user_name, can_set_user_name, flow_limit_1, 
+    flow_limit_2, create_date, modify_date, register_flag, verify_code, alive_flag, register_ip, 
+    last_login_time
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+
+  <select id="selectByClause" resultMap="BaseResultMap" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    select id, email, passwd, user_level, user_name, can_set_user_name, flow_limit_1, 
+    flow_limit_2, create_date, modify_date, register_flag, verify_code, alive_flag, register_ip, 
+    last_login_time
+    	from user
+    <if test=" '' != sql" >
+      where ${sql}
+    </if>
+    <if test="orderByClause != null and orderByClause.size > 0" >
+      order by 
+      <foreach collection="orderByClause" item="orderBy" separator="," >
+        ${orderBy}
+      </foreach>
+    </if>
+    <if test=" null != start" > limit ${start},${limit}</if>
+  </select>
+  
+
+  <select id="selectCountByClause" resultType="Integer" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    SELECT COUNT(*) 
+	FROM	user
+    <if test=" '' != sql" >
+ where ${sql}
+ </if>
+
+  </select>
+  
+
+  <insert id="insert" parameterType="zhuboss.pc2server.sengine.mis.po.UserPO" >
+    insert into user (id, email, passwd, 
+      user_level, user_name, can_set_user_name, 
+      flow_limit_1, flow_limit_2, create_date, 
+      modify_date, register_flag, verify_code, 
+      alive_flag, register_ip, last_login_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
+      #{userLevel,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{canSetUserName,jdbcType=VARCHAR}, 
+      #{flowLimit1,jdbcType=INTEGER}, #{flowLimit2,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{registerFlag,jdbcType=VARCHAR}, #{verifyCode,jdbcType=VARCHAR}, 
+      #{aliveFlag,jdbcType=VARCHAR}, #{registerIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+
+  <update id="updateByPK" parameterType="zhuboss.pc2server.sengine.mis.po.UserPO" >
+    update user
+    set email = #{email,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      user_level = #{userLevel,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      can_set_user_name = #{canSetUserName,jdbcType=VARCHAR},
+      flow_limit_1 = #{flowLimit1,jdbcType=INTEGER},
+      flow_limit_2 = #{flowLimit2,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      register_flag = #{registerFlag,jdbcType=VARCHAR},
+      verify_code = #{verifyCode,jdbcType=VARCHAR},
+      alive_flag = #{aliveFlag,jdbcType=VARCHAR},
+      register_ip = #{registerIp,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+
+  <delete id="deleteByPK" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

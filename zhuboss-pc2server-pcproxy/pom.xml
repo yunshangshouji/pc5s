@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>zhuboss</groupId>
+    <artifactId>zhuboss-pc2server</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>zhuboss-pc2server-pcproxy</groupId>
+  <artifactId>zhuboss-pc2server-pcproxy</artifactId>
+  <name>zhuboss-pc2server-pcproxy</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <jetty.version>9.2.6.v20141205</jetty.version>
+  </properties>
+  <dependencies>
+
+
+  <dependency>
+  	<groupId>zhuboss-pc2server-common</groupId>
+  	<artifactId>zhuboss-pc2server-common</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </dependency>
+  <!-- jetty -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+		<dependency>
+	    <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-servlet</artifactId>
+		   <version>${jetty.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-util</artifactId>
+		    <version>${jetty.version}</version>
+		</dependency>
+		<!-- http -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<!-- json -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.10</version>
+		</dependency>
+  </dependencies>
+  
+   <build>
+		<plugins>
+		<!-- compile -->
+        <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-compiler-plugin</artifactId>
+		        <version>3.3</version>
+		        <configuration>
+		          <source>1.7</source>
+		          <target>1.7</target>
+		          <encoding>UTF8</encoding> 
+		        </configuration>
+		 </plugin> 
+		 <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+	</build>
+</project>

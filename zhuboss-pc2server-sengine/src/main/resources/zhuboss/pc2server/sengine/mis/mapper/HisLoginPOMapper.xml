@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zhuboss.pc2server.sengine.mis.mapper.HisLoginPOMapper" >
+  <resultMap id="BaseResultMap" type="zhuboss.pc2server.sengine.mis.po.HisLoginPO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="log_date" property="logDate" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="params" property="params" jdbcType="VARCHAR" />
+  </resultMap>
+  
+
+  <select id="selectByPK" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, user_id, log_date, ip, params
+    from his_login
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+
+  <select id="selectByClause" resultMap="BaseResultMap" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    select id, user_id, log_date, ip, params
+    	from his_login
+    <if test=" '' != sql" >
+      where ${sql}
+    </if>
+    <if test="orderByClause != null and orderByClause.size > 0" >
+      order by 
+      <foreach collection="orderByClause" item="orderBy" separator="," >
+        ${orderBy}
+      </foreach>
+    </if>
+    <if test=" null != start" > limit ${start},${limit}</if>
+  </select>
+  
+
+  <select id="selectCountByClause" resultType="Integer" parameterType="zhuboss.framework.mybatis.query.QueryClauseBuilder" >
+    SELECT COUNT(*) 
+	FROM	his_login
+    <if test=" '' != sql" >
+ where ${sql}
+ </if>
+
+  </select>
+  
+
+  <insert id="insert" parameterType="zhuboss.pc2server.sengine.mis.po.HisLoginPO" >
+    insert into his_login (id, user_id, log_date, 
+      ip, params)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{logDate,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR})
+  </insert>
+  
+
+  <update id="updateByPK" parameterType="zhuboss.pc2server.sengine.mis.po.HisLoginPO" >
+    update his_login
+    set user_id = #{userId,jdbcType=INTEGER},
+      log_date = #{logDate,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+
+  <delete id="deleteByPK" parameterType="java.lang.Integer" >
+    delete from his_login
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>
