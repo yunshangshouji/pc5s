@@ -24,6 +24,10 @@ public class CookieSessionManager implements InitializingBean{
 	
 	@Value("#{propertyConfigurer.getContextProperty('sengine.cookie.deskey')}")
 	String desKey ;
+	
+	@Value("#{propertyConfigurer.getContextProperty('sengine.domain')}")
+	String sengineDomain;
+	
 	DesInstance desInstance;
 	final int expireTime = 1000*60*60*12; //12h
 	@Override
@@ -68,7 +72,7 @@ public class CookieSessionManager implements InitializingBean{
 	public void writeCookieToken(HttpResponse res,String userDomain){
 		String secretStr = desInstance.encrypt(userDomain+","+new Date().getTime());
 		DefaultCookie cookie = new DefaultCookie(COOKIE_SID_NAME, secretStr);
-		cookie.setDomain(userDomain+".pc5s.cn"); //注意domain，不设domain，有可能子目录，实际有效是domain
+		cookie.setDomain(userDomain + sengineDomain); //注意domain，不设domain，有可能子目录，实际有效是domain
 		cookie.setPath("/");
 //		cookie.setMaxAge(-1); //如果maxAge为负数，则表示该Cookie仅在本浏览器窗口以及本窗口打开的子窗口内有效，关闭窗口后该Cookie即失效。maxAge为负数的Cookie，为临时性Cookie，不会被持久化，不会被写到Cookie文件中。Cookie信息保存在浏览器内存中，因此关闭浏览器该Cookie就消失了。Cookie默认的maxAge值为-1。
 		res.headers().set("Set-Cookie",

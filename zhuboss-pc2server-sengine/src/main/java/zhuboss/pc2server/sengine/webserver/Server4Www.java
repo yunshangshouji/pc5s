@@ -33,7 +33,7 @@ public class Server4Www implements InitializingBean,DisposableBean {
 
 //	@Value("#{propertyConfigurer.getContextProperty('sengine.webserver.port1')}")
 //	String port1;
-	@Value("#{propertyConfigurer.getContextProperty('sengine.webserver.port2')}")
+	@Value("#{propertyConfigurer.getContextProperty('sengine.webserver.port')}")
 	String port2;
 	@Value("#{propertyConfigurer.getContextProperty('sengine.domain')}")
 	String sengineDomain;

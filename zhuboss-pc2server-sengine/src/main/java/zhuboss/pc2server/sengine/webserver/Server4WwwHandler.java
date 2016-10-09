@@ -22,8 +22,10 @@ import java.util.Map;
 import org.eclipse.jetty.http.HttpHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 
+import zhuboss.framework.spring.CustomizedPropertyPlaceholderConfigurer;
 import zhuboss.pc2server.common.Constants;
 import zhuboss.pc2server.common.JavaUtil;
 import zhuboss.pc2server.common.bufparser.TransPackage;
@@ -157,7 +159,8 @@ public class Server4WwwHandler extends ChannelHandlerAdapter {
 				}else if(auth == AUTH_LOGGED){
 					PageDispatcher pageDispatcher = StartSEngine.getApplicationContext().getBean(PageDispatcher.class);
 					Headers<CharSequence> headers = new DefaultHttpHeaders();
-					headers.add("Location", "http://"+this.userDomain+".pc5s.cn/");
+					String rootDomain = (String)StartSEngine.getApplicationContext().getBean(CustomizedPropertyPlaceholderConfigurer.class).getContextProperty("sengine.domain");
+					headers.add("Location", "http://"+this.userDomain+rootDomain+"/");
 					DefaultFullHttpResponse response = pageDispatcher.buildHttpResponse(ctx,HttpResponseStatus.FOUND,headers,null,null);
 					StartSEngine.getApplicationContext().getBean(CookieSessionManager.class).writeCookieToken(response, userDomain);
 					ctx.channel().writeAndFlush(response);

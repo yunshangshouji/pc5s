@@ -21,6 +21,8 @@ import org.eclipse.jetty.server.CookieCutter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import zhuboss.framework.spring.CustomizedPropertyPlaceholderConfigurer;
+import zhuboss.pc2server.sengine.StartSEngine;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -55,7 +57,8 @@ public class MyFullHttpRequestWrapper implements FullHttpRequest  {
 		if(userDomain == null){
 			String host = fullHttpRequest.headers().get(HOST_NAME).toString().toLowerCase();
 			try{
-			userDomain = host.substring(0,host.indexOf(".pc5s."));
+				String rootDomain = (String)StartSEngine.getApplicationContext().getBean(CustomizedPropertyPlaceholderConfigurer.class).getContextProperty("sengine.domain");
+			userDomain = host.substring(0,host.indexOf(rootDomain));
 			}catch(Exception e){
 				logger.warn(e.getMessage() +":"+ host);
 				return null;
