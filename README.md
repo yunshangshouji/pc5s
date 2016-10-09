@@ -8,3 +8,13 @@ QQ群:43585706
 Client： zhuboss-pc2server-pcproxy
 
 Server： zhuboss-pc2server-sengine
+
+##启动方法
+通过源代码启动：startup_in_eclipse.docx
+
+通过发布包启动：startup_by_dist.docx
+
+
+
+#注意
+版本所有，仅限于个人使用，不可以作为商业用途！
